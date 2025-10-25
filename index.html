@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>IM Top 40 Order Sets - Clinical Reference</title>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>IM Top 40 Order Sets</title>
     <style>
         * {
             margin: 0;
@@ -13,69 +13,74 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-color: #2c5aa0;
-            --secondary-color: #5b9bd5;
-            --accent-color: #e74c3c;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-primary: #2c3e50;
-            --text-secondary: #546e7a;
-            --border-color: #dce1e6;
-            --success-color: #27ae60;
-            --warning-color: #f39c12;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
             line-height: 1.6;
-            color: var(--text-primary);
-            background: var(--bg-color);
-            padding-bottom: 2rem;
+            color: #2c3e50;
+            background: #f5f6fa;
+            padding-bottom: 3rem;
         }
 
         .header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background: linear-gradient(135deg, #2c5aa0 0%, #5b9bd5 100%);
             color: white;
-            padding: 1.5rem 1rem;
+            padding: 1.5rem;
             position: sticky;
             top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .header h1 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-bottom: 0.5rem;
-            font-weight: 600;
         }
 
         .header p {
-            font-size: 0.9rem;
-            opacity: 0.9;
+            font-size: 1rem;
+            opacity: 0.95;
         }
 
-        .search-container {
+        .search-bar {
             padding: 1rem;
             background: white;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid #e1e8ed;
             position: sticky;
-            top: 78px;
-            z-index: 999;
+            top: 90px;
+            z-index: 99;
         }
 
-        .search-box {
+        .search-input {
             width: 100%;
             padding: 0.75rem 1rem;
             font-size: 1rem;
-            border: 2px solid var(--border-color);
+            border: 2px solid #ddd;
             border-radius: 8px;
-            transition: border-color 0.3s;
+            outline: none;
         }
 
-        .search-box:focus {
-            outline: none;
-            border-color: var(--primary-color);
+        .search-input:focus {
+            border-color: #2c5aa0;
+        }
+
+        .controls {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+
+        .btn:active {
+            opacity: 0.8;
         }
 
         .container {
@@ -85,285 +90,196 @@
         }
 
         .toc {
-            background: var(--card-bg);
+            background: white;
             border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .toc h2 {
-            color: var(--primary-color);
+            color: #2c5aa0;
             margin-bottom: 1rem;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 1.4rem;
         }
 
         .toc-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 0.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem;
         }
 
-        .toc-item {
-            padding: 0.5rem 0.75rem;
-            background: var(--bg-color);
+        .toc-link {
+            padding: 0.75rem;
+            background: #f8f9fa;
             border-radius: 6px;
             cursor: pointer;
+            border-left: 4px solid #5b9bd5;
             transition: all 0.2s;
-            border-left: 3px solid var(--secondary-color);
+            font-size: 0.95rem;
         }
 
-        .toc-item:hover {
-            background: var(--secondary-color);
+        .toc-link:active {
+            background: #5b9bd5;
             color: white;
             transform: translateX(4px);
         }
 
-        .condition-card {
-            background: var(--card-bg);
+        .card {
+            background: white;
             border-radius: 12px;
             margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             overflow: hidden;
-            transition: all 0.3s;
         }
 
-        .condition-card:hover {
-            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-        }
-
-        .condition-header {
-            background: var(--primary-color);
+        .card-header {
+            background: #2c5aa0;
             color: white;
             padding: 1rem 1.5rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            user-select: none;
         }
 
-        .condition-header h2 {
+        .card-header h3 {
             font-size: 1.3rem;
             font-weight: 600;
+            flex: 1;
         }
 
-        .toggle-icon {
+        .toggle {
             font-size: 1.5rem;
             transition: transform 0.3s;
+            flex-shrink: 0;
+            margin-left: 1rem;
         }
 
-        .toggle-icon.open {
+        .toggle.open {
             transform: rotate(180deg);
         }
 
-        .condition-content {
-            padding: 1.5rem;
+        .card-body {
             display: none;
+            padding: 1.5rem;
         }
 
-        .condition-content.active {
+        .card-body.show {
             display: block;
         }
 
-        .section {
+        .alert-critical {
+            background: #ffebee;
+            border-left: 4px solid #e74c3c;
+            padding: 1rem;
+            border-radius: 6px;
             margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .section {
+            margin-bottom: 2rem;
         }
 
         .section-title {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 0.75rem;
+            color: #2c5aa0;
+            margin-bottom: 1rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            border-bottom: 2px solid #e1e8ed;
         }
 
-        .section-content {
-            padding-left: 0.5rem;
-        }
-
-        .med-list, .lab-list, .imaging-list, .monitor-list {
+        .section-content ul {
             list-style: none;
+            padding: 0;
         }
 
-        .med-list li, .lab-list li, .imaging-list li, .monitor-list li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid var(--border-color);
+        .section-content li {
+            padding: 0.75rem;
+            border-bottom: 1px solid #f0f0f0;
+            line-height: 1.6;
         }
 
-        .med-list li:last-child, .lab-list li:last-child, .imaging-list li:last-child, .monitor-list li:last-child {
+        .section-content li:last-child {
             border-bottom: none;
         }
 
         .drug-name {
             font-weight: 600;
-            color: var(--primary-color);
+            color: #2c5aa0;
+            display: block;
+            margin-bottom: 0.25rem;
         }
 
         .dose {
-            color: var(--text-secondary);
+            color: #546e7a;
             font-family: 'Courier New', monospace;
-            background: var(--bg-color);
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-
-        .category-badge {
-            display: inline-block;
+            background: #f8f9fa;
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 0.25rem;
         }
 
-        .badge-critical {
-            background: #ffebee;
-            color: #c62828;
+        .back-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #2c5aa0;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            font-size: 1.5rem;
+            z-index: 98;
         }
 
-        .badge-important {
-            background: #fff3e0;
-            color: #ef6c00;
-        }
-
-        .badge-routine {
-            background: #e3f2fd;
-            color: #1565c0;
-        }
-
-        .info-box {
-            background: #e3f2fd;
-            border-left: 4px solid var(--primary-color);
-            padding: 1rem;
-            border-radius: 6px;
-            margin: 1rem 0;
-        }
-
-        .warning-box {
-            background: #fff3e0;
-            border-left: 4px solid var(--warning-color);
-            padding: 1rem;
-            border-radius: 6px;
-            margin: 1rem 0;
-        }
-
-        .critical-box {
-            background: #ffebee;
-            border-left: 4px solid var(--accent-color);
-            padding: 1rem;
-            border-radius: 6px;
-            margin: 1rem 0;
-        }
-
-        .subsection {
-            margin-left: 1rem;
-            margin-top: 0.5rem;
-            padding-left: 1rem;
-            border-left: 2px solid var(--border-color);
+        .back-top.visible {
+            display: flex;
         }
 
         .footer {
             text-align: center;
             padding: 2rem 1rem;
-            color: var(--text-secondary);
+            color: #546e7a;
             font-size: 0.9rem;
-        }
-
-        .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--primary-color);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 998;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-        }
-
-        .expand-all-btn {
-            background: var(--success-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-left: 1rem;
-            transition: background 0.3s;
-        }
-
-        .expand-all-btn:hover {
-            background: #229954;
+            line-height: 1.8;
         }
 
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 1.3rem;
+                font-size: 1.5rem;
             }
-
+            
             .toc-grid {
                 grid-template-columns: 1fr;
             }
 
-            .search-container {
-                top: 73px;
+            .card-header h3 {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
             }
         }
 
         @media print {
-            .header, .search-container, .back-to-top, .toc, .expand-all-btn {
+            .header, .search-bar, .controls, .back-top, .toc {
                 display: none;
             }
 
-            .condition-content {
+            .card-body {
                 display: block !important;
             }
-
-            .condition-card {
-                page-break-inside: avoid;
-            }
-        }
-
-        strong {
-            color: var(--primary-color);
-        }
-
-        code {
-            background: var(--bg-color);
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
-
-        ul {
-            margin-left: 1.5rem;
-        }
-
-        ul li {
-            margin-bottom: 0.5rem;
         }
     </style>
 </head>
@@ -373,100 +289,100 @@
         <p>Evidence-Based Clinical Reference for Hospital Admissions</p>
     </div>
 
-    <div class="search-container">
-        <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search conditions, medications, labs..." autocomplete="off">
-        <button class="expand-all-btn" onclick="toggleAll()">Expand All</button>
+    <div class="search-bar">
+        <input type="text" class="search-input" id="search" placeholder="🔍 Search conditions, medications, labs...">
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="expandAll()">Expand All</button>
+        <button class="btn" onclick="collapseAll()">Collapse All</button>
     </div>
 
     <div class="container">
         <div class="toc">
             <h2>📑 Quick Navigation</h2>
-            <div class="toc-grid" id="tocGrid">
-                <!-- Generated by JavaScript -->
-            </div>
+            <div class="toc-grid" id="toc"></div>
         </div>
 
-        <div id="conditionsContainer">
-            <!-- Conditions will be generated here -->
-        </div>
+        <div id="conditions"></div>
     </div>
 
-    <div class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</div>
+    <div class="back-top" id="backTop" onclick="scrollTop()">↑</div>
 
     <div class="footer">
-        <p><strong>Disclaimer:</strong> This reference is for educational purposes. Always consult current evidence-based guidelines and specialist input for complex cases. Adapt based on institutional protocols and patient-specific factors.</p>
+        <p><strong>Disclaimer:</strong> This reference is for educational purposes. Always consult current evidence-based guidelines and specialist input for complex cases.</p>
+        <p>Adapt based on institutional protocols and patient-specific factors.</p>
         <p style="margin-top: 1rem;">Last Updated: October 2025 | Version 1.0</p>
     </div>
 
     <script>
-        const conditions = [
+        const data = [
             {
                 id: 1,
                 name: "Acute Coronary Syndrome (ACS/STEMI/NSTEMI)",
-                category: "Cardiovascular",
+                critical: "Cardiology consult STAT for STEMI. Door-to-balloon time <90 minutes.",
                 admission: [
-                    "Telemetry monitoring, ICU/Step-down",
+                    "Telemetry monitoring, ICU/Step-down unit",
                     "Cardiology consult (STAT for STEMI)",
-                    "NPO initially, then cardiac diet",
-                    "Bed rest with bedside commode"
+                    "NPO initially, advance to cardiac diet when stable",
+                    "Bed rest with bedside commode privileges",
+                    "Oxygen to maintain SpO2 >90%"
                 ],
-                medications: [
+                meds: [
                     { drug: "Aspirin", dose: "325mg PO x1 (if not given), then 81mg daily" },
                     { drug: "P2Y12 inhibitor", dose: "Ticagrelor 180mg load then 90mg BID OR Clopidogrel 600mg load then 75mg daily" },
                     { drug: "Anticoagulation", dose: "Heparin drip OR Enoxaparin 1mg/kg SC q12h" },
                     { drug: "Beta-blocker", dose: "Metoprolol 25-50mg PO q6h (if no contraindications)" },
                     { drug: "High-intensity statin", dose: "Atorvastatin 80mg daily OR Rosuvastatin 40mg daily" },
                     { drug: "ACE-I/ARB", dose: "Lisinopril 2.5-5mg daily (start within 24h if stable)" },
-                    { drug: "Nitroglycerin", dose: "0.4mg SL q5min PRN chest pain (3 doses max), then call MD" },
+                    { drug: "Nitroglycerin", dose: "0.4mg SL q5min PRN chest pain (max 3 doses), then call MD" },
                     { drug: "Morphine", dose: "2-4mg IV PRN severe pain" }
                 ],
                 labs: [
-                    "Troponin at presentation, 3h, 6h (serial)",
-                    "CBC, CMP, Mg, lipid panel",
+                    "Troponin at 0h, 3h, 6h (serial cardiac enzymes)",
+                    "CBC, CMP, Magnesium",
+                    "Lipid panel, HgbA1c",
                     "PT/INR, PTT",
-                    "BNP/NT-proBNP",
-                    "HgbA1c"
+                    "BNP/NT-proBNP"
                 ],
                 imaging: [
-                    "ECG at presentation, repeat PRN symptoms, daily",
+                    "ECG at presentation, repeat q8h and PRN symptoms",
                     "Chest X-ray (PA/Lateral)",
-                    "Echocardiogram (TTE) within 24h",
+                    "Echocardiogram (TTE) within 24 hours",
                     "Coronary angiography (STAT for STEMI)"
                 ],
                 monitoring: [
-                    "Continuous telemetry",
+                    "Continuous telemetry monitoring",
                     "Vital signs q1h x 4h, then q4h",
-                    "I/O monitoring",
-                    "Daily weights",
-                    "Cardiac enzymes as above"
+                    "Strict I/O, daily weights",
+                    "Serial troponins as above",
+                    "Daily 12-lead ECG"
                 ]
             },
             {
                 id: 2,
                 name: "Acute Decompensated Heart Failure (ADHF)",
-                category: "Cardiovascular",
+                critical: null,
                 admission: [
                     "Telemetry monitoring",
-                    "Daily weights, strict I/O",
-                    "2L fluid restriction",
-                    "2g sodium restriction diet",
+                    "Daily weights (same scale, same time), strict I/O",
+                    "2L fluid restriction, 2g sodium restriction",
                     "Activity: bed rest initially, advance as tolerated"
                 ],
-                medications: [
+                meds: [
                     { drug: "Loop diuretic", dose: "Furosemide IV (1-2x home PO dose, or 40-80mg IV if diuretic-naive)" },
                     { drug: "ACE-I or ARB", dose: "Continue home dose if stable (hold if hypotensive)" },
                     { drug: "Beta-blocker", dose: "Continue home dose (may hold if decompensated)" },
                     { drug: "Aldosterone antagonist", dose: "Spironolactone 12.5-25mg daily" },
                     { drug: "Vasodilators (if needed)", dose: "Nitroglycerin drip, Nitroprusside" },
-                    { drug: "Inotropes (if cardiogenic shock)", dose: "Dobutamine, Milrinone" }
+                    { drug: "Inotropes (if shock)", dose: "Dobutamine, Milrinone" }
                 ],
                 labs: [
                     "BNP or NT-proBNP",
-                    "CBC, CMP (including Mg, Phos)",
+                    "CBC, CMP (including Mg, Phosphorus)",
                     "Troponin",
-                    "TSH",
-                    "Lipid panel",
-                    "Renal function monitoring (daily Cr, BUN)"
+                    "TSH, lipid panel",
+                    "Daily renal function (Cr, BUN)"
                 ],
                 imaging: [
                     "Chest X-ray (PA/Lateral)",
@@ -476,27 +392,27 @@
                 ],
                 monitoring: [
                     "Daily weights (same scale, same time)",
-                    "Strict I/O",
+                    "Strict I/O - goal net negative 500-1000 mL/day",
                     "Vital signs q4h",
                     "Continuous telemetry",
-                    "Net fluid balance goal: -500 to -1000 mL/day"
+                    "Oxygen saturation"
                 ]
             },
             {
                 id: 3,
                 name: "Atrial Fibrillation with RVR",
-                category: "Cardiovascular",
+                critical: null,
                 admission: [
-                    "Telemetry monitoring",
+                    "Telemetry monitoring mandatory",
                     "Regular diet unless NPO for cardioversion",
                     "Activity as tolerated"
                 ],
-                medications: [
+                meds: [
                     { drug: "Metoprolol (rate control)", dose: "2.5-5mg IV q2-6h PRN, then 25-50mg PO q6h" },
                     { drug: "Diltiazem (rate control)", dose: "0.25mg/kg IV over 2min, then 5-15mg/h drip" },
-                    { drug: "Digoxin (rate control)", dose: "0.5mg IV load, then 0.25mg q6h x 2, then 0.125-0.25mg daily" },
+                    { drug: "Digoxin (rate control)", dose: "0.5mg IV load, then 0.25mg q6h x2, then 0.125-0.25mg daily" },
                     { drug: "Anticoagulation", dose: "Heparin drip OR Enoxaparin 1mg/kg SC q12h, transition to DOAC or warfarin" },
-                    { drug: "Amiodarone (rhythm control)", dose: "150mg IV over 10min, then 1mg/min x 6h, then 0.5mg/min" }
+                    { drug: "Amiodarone (rhythm)", dose: "150mg IV over 10min, then 1mg/min x6h, then 0.5mg/min" }
                 ],
                 labs: [
                     "CBC, CMP (including Mg, Ca)",
@@ -506,32 +422,32 @@
                     "Digoxin level (if on digoxin)"
                 ],
                 imaging: [
-                    "ECG",
+                    "ECG (compare to prior if available)",
                     "Chest X-ray",
                     "Echocardiogram (TTE)",
-                    "TEE if considering cardioversion >48h from onset"
+                    "TEE if cardioversion planned >48h from onset"
                 ],
                 monitoring: [
                     "Continuous telemetry",
                     "Vital signs q2h until rate controlled, then q4h",
-                    "CHA2DS2-VASc score for stroke risk",
-                    "HAS-BLED score for bleeding risk"
+                    "Calculate CHA2DS2-VASc score (stroke risk)",
+                    "Calculate HAS-BLED score (bleeding risk)"
                 ]
             },
             {
                 id: 4,
                 name: "Hypertensive Emergency",
-                category: "Cardiovascular",
+                critical: "Goal: Reduce MAP by 10-20% in first hour. Avoid rapid drops - risk of end-organ hypoperfusion.",
                 admission: [
                     "ICU level care",
                     "Arterial line for continuous BP monitoring",
                     "NPO initially",
                     "Bed rest"
                 ],
-                medications: [
+                meds: [
                     { drug: "Nicardipine", dose: "5mg/h IV, titrate by 2.5mg/h q5-15min (max 15mg/h)" },
                     { drug: "Labetalol", dose: "20mg IV bolus, then 20-80mg q10min OR 0.5-2mg/min drip" },
-                    { drug: "Nitroprusside", dose: "0.3-0.5 mcg/kg/min, titrate (use with caution)" },
+                    { drug: "Nitroprusside", dose: "0.3-0.5 mcg/kg/min, titrate (use with caution - cyanide toxicity)" },
                     { drug: "Esmolol", dose: "For aortic dissection" },
                     { drug: "Hydralazine", dose: "10-20mg IV q4-6h" }
                 ],
@@ -553,25 +469,24 @@
                     "Continuous arterial BP monitoring",
                     "Neuro checks q1h",
                     "Cardiac monitoring",
-                    "I/O",
-                    "End-organ damage assessment (renal, cardiac, neurologic, retinal)"
-                ],
-                critical: "Goal: reduce MAP by 10-20% in 1st hour"
+                    "Strict I/O",
+                    "End-organ assessment (renal, cardiac, neuro, retinal)"
+                ]
             },
             {
                 id: 5,
                 name: "Community-Acquired Pneumonia (CAP)",
-                category: "Pulmonary",
+                critical: null,
                 admission: [
                     "General medical floor (ICU if septic/respiratory failure)",
-                    "Regular diet",
+                    "Regular diet, encourage PO fluids",
                     "Oxygen to maintain SpO2 >90%",
                     "Activity as tolerated",
                     "Respiratory isolation if atypical organisms suspected"
                 ],
-                medications: [
+                meds: [
                     { drug: "Non-severe", dose: "Ceftriaxone 1g IV daily + Azithromycin 500mg IV/PO daily" },
-                    { drug: "Severe/ICU", dose: "Ceftriaxone 1g IV daily + Azithromycin 500mg daily OR Levofloxacin 750mg daily + Vancomycin" },
+                    { drug: "Severe/ICU", dose: "Ceftriaxone 1g IV daily + Azithromycin 500mg OR Levofloxacin 750mg + Vancomycin" },
                     { drug: "MRSA risk", dose: "Add Vancomycin 15mg/kg q12h" },
                     { drug: "Pseudomonas risk", dose: "Pip-tazo 4.5g q6h OR Cefepime 2g q8h + Levofloxacin" },
                     { drug: "Acetaminophen", dose: "650mg PO/IV q6h PRN fever" },
@@ -580,7 +495,7 @@
                 labs: [
                     "CBC with differential",
                     "CMP",
-                    "Blood cultures x 2 (before antibiotics)",
+                    "Blood cultures x2 (before antibiotics)",
                     "Sputum culture and gram stain",
                     "Procalcitonin",
                     "Legionella and pneumococcal urinary antigens",
@@ -589,11 +504,11 @@
                 ],
                 imaging: [
                     "Chest X-ray (PA/Lateral)",
-                    "CT chest if complicated or unclear diagnosis"
+                    "CT chest if complicated or unclear"
                 ],
                 monitoring: [
                     "Vital signs q4h",
-                    "Oxygen saturation continuous if on O2",
+                    "Continuous pulse oximetry if on O2",
                     "CURB-65 or PSI score",
                     "Clinical response at 48-72h",
                     "Repeat CXR if not improving"
@@ -602,19 +517,21 @@
             {
                 id: 6,
                 name: "COPD Exacerbation",
-                category: "Pulmonary",
+                critical: null,
                 admission: [
                     "General medical floor (ICU if impending respiratory failure)",
-                    "Oxygen: nasal cannula or Venturi mask (goal SpO2 88-92%)",
+                    "Oxygen: nasal cannula or Venturi mask - goal SpO2 88-92%",
                     "Regular diet",
                     "Activity as tolerated"
                 ],
-                medications: [
+                meds: [
                     { drug: "Albuterol", dose: "2.5mg neb q1-2h initially, then q4-6h" },
                     { drug: "Ipratropium", dose: "0.5mg neb q6h (or combined with albuterol)" },
                     { drug: "Prednisone", dose: "40mg PO daily x 5 days" },
                     { drug: "Methylprednisolone", dose: "125mg IV q6h x 48h, then PO taper" },
-                    { drug: "Antibiotics (if purulent)", dose: "Azithromycin 500mg daily x 5d OR Doxycycline 100mg BID x 5-7d OR Levofloxacin 750mg daily x 5d" }
+                    { drug: "Azithromycin", dose: "500mg daily x 5 days (if purulent sputum)" },
+                    { drug: "Doxycycline", dose: "100mg BID x 5-7 days" },
+                    { drug: "Levofloxacin", dose: "750mg daily x 5 days" }
                 ],
                 labs: [
                     "CBC with differential",
@@ -632,22 +549,22 @@
                     "Continuous pulse oximetry",
                     "Peak flow or FEV1 monitoring",
                     "ABG reassessment if worsening",
-                    "Assess for need for BiPAP/intubation"
+                    "Assess for BiPAP/intubation need"
                 ]
             },
             {
                 id: 7,
                 name: "Asthma Exacerbation",
-                category: "Pulmonary",
+                critical: null,
                 admission: [
                     "General medical floor (ICU if severe/life-threatening)",
                     "Oxygen to maintain SpO2 >90%",
                     "Regular diet",
                     "Activity as tolerated"
                 ],
-                medications: [
-                    { drug: "Albuterol", dose: "2.5-5mg neb q20min x 3, then q1-4h" },
-                    { drug: "Ipratropium", dose: "0.5mg neb q20min x 3 with albuterol" },
+                meds: [
+                    { drug: "Albuterol", dose: "2.5-5mg neb q20min x3, then q1-4h" },
+                    { drug: "Ipratropium", dose: "0.5mg neb q20min x3 with albuterol" },
                     { drug: "Prednisone", dose: "40-60mg PO daily" },
                     { drug: "Methylprednisolone", dose: "40-80mg IV q8h" },
                     { drug: "Magnesium sulfate", dose: "2g IV over 20min (if severe)" },
@@ -660,32 +577,32 @@
                     "Theophylline level (if on theophylline)"
                 ],
                 imaging: [
-                    "Chest X-ray (if first episode, severe, or concern for complication)"
+                    "Chest X-ray (if first episode, severe, or complications suspected)"
                 ],
                 monitoring: [
                     "Vital signs q2-4h",
                     "Continuous pulse oximetry",
-                    "Peak expiratory flow (PEF) at presentation, after treatment, q4h",
-                    "Assess response to therapy q1h initially",
-                    "Watch for need for ICU transfer"
+                    "Peak expiratory flow at presentation, after tx, q4h",
+                    "Assess response q1h initially",
+                    "Watch for ICU transfer need"
                 ]
             },
             {
                 id: 8,
                 name: "Pulmonary Embolism (PE)",
-                category: "Pulmonary",
+                critical: null,
                 admission: [
                     "Telemetry monitoring (if intermediate/high risk)",
                     "ICU if massive PE/hemodynamically unstable",
                     "Oxygen to maintain SpO2 >90%",
                     "Bed rest initially, then activity as tolerated"
                 ],
-                medications: [
+                meds: [
                     { drug: "Apixaban", dose: "10mg BID x 7 days, then 5mg BID" },
                     { drug: "Rivaroxaban", dose: "15mg BID x 21 days, then 20mg daily" },
                     { drug: "Heparin drip", dose: "80 units/kg bolus, 18 units/kg/h infusion" },
                     { drug: "Enoxaparin", dose: "1mg/kg SC q12h" },
-                    { drug: "tPA (if massive PE)", dose: "100mg IV over 2 hours" },
+                    { drug: "tPA (massive PE)", dose: "100mg IV over 2 hours" },
                     { drug: "Morphine", dose: "2-4mg IV PRN pain" }
                 ],
                 labs: [
@@ -700,27 +617,28 @@
                     "CT pulmonary angiogram (CTPA) - gold standard",
                     "V/Q scan (if contrast contraindicated)",
                     "Chest X-ray",
-                    "ECG (S1Q3T3 pattern, right heart strain)",
+                    "ECG (S1Q3T3 pattern, RV strain)",
                     "Lower extremity Doppler ultrasound",
                     "Echocardiogram (assess RV function)"
                 ],
                 monitoring: [
                     "Vital signs q4h",
-                    "Oxygen saturation continuous",
+                    "Continuous oxygen saturation",
                     "sPESI or PESI score",
                     "Monitor for bleeding",
-                    "Repeat imaging if clinical deterioration"
+                    "Repeat imaging if deterioration"
                 ]
             },
             {
                 id: 9,
                 name: "Deep Vein Thrombosis (DVT)",
-                category: "Vascular",
+                critical: null,
                 admission: [
-                    "General medical floor (admit if proximal DVT, extensive clot)",
-                    "Activity: leg elevation, early ambulation with compression"
+                    "Admit if proximal DVT, extensive clot, hemodynamically compromised",
+                    "May treat as outpatient if distal DVT and stable",
+                    "Leg elevation, early ambulation with compression"
                 ],
-                medications: [
+                meds: [
                     { drug: "Apixaban", dose: "10mg BID x 7 days, then 5mg BID" },
                     { drug: "Rivaroxaban", dose: "15mg BID x 21 days, then 20mg daily" },
                     { drug: "Enoxaparin", dose: "1mg/kg SC q12h + warfarin bridge" },
@@ -730,11 +648,11 @@
                     "CBC, CMP",
                     "PT/INR, PTT",
                     "D-dimer (rarely needed if high suspicion)",
-                    "Thrombophilia workup (after acute treatment, if indicated)"
+                    "Thrombophilia workup (after acute phase, if indicated)"
                 ],
                 imaging: [
-                    "Compression ultrasound with Doppler (diagnostic test of choice)",
-                    "CT or MRI for pelvic/IVC thrombosis"
+                    "Compression ultrasound with Doppler (diagnostic)",
+                    "CT or MRI for pelvic/IVC thrombosis if suspected"
                 ],
                 monitoring: [
                     "Daily leg measurements (calf/thigh circumference)",
@@ -745,7 +663,7 @@
             {
                 id: 10,
                 name: "Acute Upper GI Bleeding",
-                category: "Gastrointestinal",
+                critical: "Transfusion threshold: Hgb <7 g/dL (or <8-9 if CAD/ACS). EGD within 24h.",
                 admission: [
                     "ICU if hemodynamically unstable/massive bleeding",
                     "NPO",
@@ -753,12 +671,12 @@
                     "GI consult for EGD (urgent/emergent)",
                     "Type and cross 4 units PRBCs"
                 ],
-                medications: [
+                meds: [
                     { drug: "Pantoprazole", dose: "80mg IV bolus, then 8mg/h infusion" },
-                    { drug: "Octreotide (if variceal)", dose: "50mcg bolus, then 50mcg/h infusion" },
-                    { drug: "Ceftriaxone (if cirrhotic)", dose: "1g IV daily" },
+                    { drug: "Octreotide (variceal)", dose: "50mcg bolus, then 50mcg/h infusion" },
+                    { drug: "Ceftriaxone (cirrhotic)", dose: "1g IV daily" },
                     { drug: "Erythromycin", dose: "250mg IV (prokinetic for EGD prep)" },
-                    { drug: "FFP, vitamin K, platelets", dose: "As needed to correct coagulopathy" }
+                    { drug: "FFP, Vitamin K, Platelets", dose: "Correct coagulopathy as needed" }
                 ],
                 labs: [
                     "CBC q6-8h initially",
@@ -776,39 +694,38 @@
                     "Continuous telemetry if significant bleeding",
                     "Strict I/O, NG tube output",
                     "Hemoglobin q6-8h",
-                    "Glasgow-Blatchford Score, Rockall Score",
-                    "Transfusion threshold: Hgb <7 g/dL"
+                    "Glasgow-Blatchford Score, Rockall Score"
                 ]
             },
             {
                 id: 11,
                 name: "Acute Pancreatitis",
-                category: "Gastrointestinal",
+                critical: null,
                 admission: [
-                    "ICU if severe (organ failure, APACHE-II >8, Ranson's >3)",
+                    "ICU if severe (APACHE-II >8, Ranson's >3, organ failure)",
                     "NPO initially",
-                    "Aggressive IV fluid resuscitation"
+                    "Aggressive IV fluid resuscitation - KEY treatment"
                 ],
-                medications: [
+                meds: [
                     { drug: "LR (aggressive IVF)", dose: "250-500mL/h initially (goal 2.5-4L in first 24h)" },
                     { drug: "Morphine", dose: "2-4mg IV q2-4h PRN" },
                     { drug: "Hydromorphone", dose: "0.5-1mg IV q2-4h PRN" },
                     { drug: "Fentanyl", dose: "25-50mcg IV q1-2h PRN" },
-                    { drug: "Ondansetron", dose: "4-8mg IV q8h PRN" },
-                    { drug: "Antibiotics", dose: "ONLY if infected necrosis confirmed" }
+                    { drug: "Ondansetron", dose: "4-8mg IV q8h PRN nausea" },
+                    { drug: "Antibiotics", dose: "ONLY if infected necrosis confirmed (not prophylactic)" }
                 ],
                 labs: [
                     "Lipase and/or amylase",
                     "CBC with differential",
                     "CMP (including Ca, Mg, Phos)",
-                    "LFTs (ALT >3x suggests gallstone etiology)",
-                    "Triglycerides",
+                    "LFTs (ALT >3x ULN suggests gallstone etiology)",
+                    "Triglycerides (if >1000, consider as cause)",
                     "CRP (prognostic)",
                     "Lactate"
                 ],
                 imaging: [
                     "Abdominal ultrasound (gallstones, CBD dilation)",
-                    "CT abdomen/pelvis with IV contrast (at 48-72h if severe)",
+                    "CT abdomen/pelvis with contrast (at 48-72h if severe/not improving)",
                     "MRCP (if concern for choledocholithiasis)",
                     "ERCP (if cholangitis or persistent CBD obstruction)"
                 ],
@@ -816,26 +733,26 @@
                     "Vital signs q2-4h",
                     "Strict I/O (goal UOP >0.5 mL/kg/h)",
                     "Daily BUN, Cr",
-                    "Ranson's criteria at admission and 48h",
+                    "Ranson's criteria at 0h and 48h",
                     "APACHE-II or BISAP score"
                 ]
             },
             {
                 id: 12,
                 name: "Cirrhosis / Acute Liver Failure",
-                category: "Gastrointestinal",
+                critical: null,
                 admission: [
                     "ICU if acute liver failure, encephalopathy >Grade 2, or GI bleed",
                     "NPO if encephalopathy or varices concern",
                     "Hepatology consult",
                     "Transplant surgery consult if fulminant failure"
                 ],
-                medications: [
+                meds: [
                     { drug: "Lactulose", dose: "30mL PO q1-2h until BM, then 15-30mL TID (goal 2-3 BMs/day)" },
                     { drug: "Rifaximin", dose: "550mg PO BID (for encephalopathy)" },
                     { drug: "Spironolactone", dose: "100mg PO daily (for ascites)" },
                     { drug: "Furosemide", dose: "40mg PO daily (100:40 ratio with spironolactone)" },
-                    { drug: "Propranolol or nadolol", dose: "For variceal prophylaxis if not bleeding" },
+                    { drug: "Propranolol/nadolol", dose: "For variceal prophylaxis if not bleeding" },
                     { drug: "N-acetylcysteine", dose: "If acetaminophen toxicity" }
                 ],
                 labs: [
@@ -847,10 +764,10 @@
                     "AFP (if cirrhotic)"
                 ],
                 imaging: [
-                    "Abdominal ultrasound with Doppler",
+                    "Abdominal ultrasound with Doppler (liver, spleen, portal vein)",
                     "CT or MRI abdomen (assess for HCC)",
                     "EGD (screen for varices)",
-                    "Paracentesis: Cell count, albumin, culture"
+                    "Paracentesis: cell count, albumin, culture"
                 ],
                 monitoring: [
                     "Vital signs q4h",
@@ -863,18 +780,18 @@
             {
                 id: 13,
                 name: "Diabetic Ketoacidosis (DKA)",
-                category: "Endocrine",
+                critical: "Continue insulin infusion until anion gap closes AND HCO3 >18. Use two-bag system.",
                 admission: [
-                    "ICU or step-down",
+                    "ICU or step-down unit",
                     "NPO initially",
                     "Continuous insulin infusion",
-                    "Aggressive IVF"
+                    "Aggressive IV fluid resuscitation"
                 ],
-                medications: [
+                meds: [
                     { drug: "NS", dose: "1L bolus, then 250-500 mL/h" },
-                    { drug: "D5 1/2NS", dose: "When glucose <250 mg/dL" },
+                    { drug: "D5 1/2NS", dose: "Add when glucose <250 mg/dL" },
                     { drug: "Regular insulin", dose: "0.1 units/kg IV bolus, then 0.1 units/kg/h infusion" },
-                    { drug: "Potassium", dose: "20-30 mEq K to each liter if K 3.3-5.2" },
+                    { drug: "Potassium", dose: "If K <3.3: replete before insulin. If K 3.3-5.2: add 20-30 mEq to each liter" },
                     { drug: "Phosphate", dose: "Replete if <1.0 mg/dL" },
                     { drug: "Bicarbonate", dose: "ONLY if pH <6.9 (controversial)" }
                 ],
@@ -882,7 +799,7 @@
                     "Blood glucose q1h initially",
                     "VBG or ABG with electrolytes q2-4h",
                     "Anion gap calculation q2-4h",
-                    "Beta-hydroxybutyrate",
+                    "Beta-hydroxybutyrate (if available)",
                     "CMP q4h",
                     "CBC, HgbA1c",
                     "Evaluate precipitant: cultures, CXR, UA, troponin, lipase"
@@ -897,32 +814,32 @@
                     "Continuous cardiac monitoring",
                     "Strict I/O (Foley catheter)",
                     "Glucose q1h (fingerstick)",
-                    "Neuro status q2h",
-                    "Two-bag system when glucose <250"
-                ],
-                critical: "Continue insulin until anion gap closes and HCO3 >18"
+                    "Neuro status q2h"
+                ]
             },
             {
                 id: 14,
                 name: "Hyperosmolar Hyperglycemic State (HHS)",
-                category: "Endocrine",
+                critical: "More aggressive fluid resuscitation than DKA. Correct Na slowly to avoid osmotic demyelination.",
                 admission: [
                     "ICU or step-down",
                     "NPO initially",
-                    "Aggressive IVF (more than DKA)"
+                    "Aggressive IVF (MORE than DKA)",
+                    "Lower-dose insulin than DKA"
                 ],
-                medications: [
+                meds: [
                     { drug: "NS", dose: "1-1.5L over first hour, then 250-500 mL/h" },
                     { drug: "1/2NS", dose: "Switch if corrected Na+ normal or high" },
                     { drug: "D5", dose: "Add when glucose <300 mg/dL" },
-                    { drug: "Regular insulin", dose: "0.05-0.1 units/kg/h (lower than DKA), goal decrease 50-70 mg/dL/h" },
-                    { drug: "Potassium", dose: "Same as DKA protocol" }
+                    { drug: "Regular insulin", dose: "0.05-0.1 units/kg/h (LOWER than DKA). Goal: decrease 50-70 mg/dL/h" },
+                    { drug: "Potassium", dose: "Same protocol as DKA" }
                 ],
                 labs: [
                     "Blood glucose q1h initially",
                     "CMP with electrolytes q2-4h",
                     "Osmolality q4h (calculated and measured)",
-                    "CBC, urinalysis, HgbA1c"
+                    "CBC, urinalysis, HgbA1c",
+                    "Evaluate precipitant"
                 ],
                 imaging: [
                     "Based on suspected precipitant"
@@ -934,28 +851,27 @@
                     "Mental status q1-2h",
                     "Calculate: effective osmolality, corrected sodium",
                     "Watch for cerebral edema"
-                ],
-                critical: "Rate of correction: not >8-10 mEq/L in 24h to avoid osmotic demyelination"
+                ]
             },
             {
                 id: 15,
                 name: "Acute Kidney Injury (AKI)",
-                category: "Renal",
+                critical: null,
                 admission: [
                     "General medical floor (ICU if severe, dialysis needed)",
                     "Nephrology consult if severe or unclear etiology",
                     "Renal diet (low K, Phos)",
-                    "Strict I/O monitoring"
+                    "Strict I/O monitoring, Foley if needed"
                 ],
-                medications: [
+                meds: [
                     { drug: "Hold nephrotoxins", dose: "NSAIDs, ACE-I/ARBs, aminoglycosides, contrast" },
                     { drug: "IVF (if prerenal)", dose: "NS or LR bolus, then maintenance" },
                     { drug: "Furosemide", dose: "20-40mg IV (if volume overloaded)" },
                     { drug: "Sodium bicarbonate", dose: "If severe metabolic acidosis" },
-                    { drug: "Dialysis", dose: "If refractory hyperkalemia, volume overload, uremia, severe acidosis" }
+                    { drug: "Dialysis", dose: "If: refractory K+, volume overload, uremia, severe acidosis (AEIOU)" }
                 ],
                 labs: [
-                    "Daily BUN, Cr, electrolytes",
+                    "Daily BUN, Cr, electrolytes (Na, K, Cl, HCO3, Ca, Phos, Mg)",
                     "Urinalysis with microscopy",
                     "Urine electrolytes (Na, Cr) - calculate FeNa, FeUrea",
                     "Urine eosinophils (if AIN suspected)",
@@ -963,7 +879,7 @@
                     "Consider: ANA, ANCA, complement, anti-GBM, SPEP/UPEP"
                 ],
                 imaging: [
-                    "Renal ultrasound with Doppler",
+                    "Renal ultrasound with Doppler (assess size, echogenicity, obstruction)",
                     "Bladder scan (if post-renal suspected)",
                     "CT abdomen/pelvis without contrast (if obstruction)"
                 ],
@@ -978,17 +894,18 @@
             {
                 id: 16,
                 name: "Urinary Tract Infection / Pyelonephritis",
-                category: "Infectious",
+                critical: null,
                 admission: [
-                    "General medical floor",
-                    "Admit if: sepsis, complicated UTI, pregnancy, inability to tolerate PO"
+                    "Admit if: sepsis, complicated UTI, pregnancy, unable to tolerate PO",
+                    "Regular diet, encourage PO fluids",
+                    "Activity as tolerated"
                 ],
-                medications: [
+                meds: [
                     { drug: "Ceftriaxone", dose: "1-2g IV daily" },
                     { drug: "Ciprofloxacin", dose: "400mg IV q12h" },
                     { drug: "Levofloxacin", dose: "750mg IV daily" },
-                    { drug: "Pip-tazo (severe sepsis)", dose: "3.375-4.5g IV q6h" },
-                    { drug: "Cefepime (severe sepsis)", dose: "1-2g IV q8h" },
+                    { drug: "Pip-tazo (severe)", dose: "3.375-4.5g IV q6h" },
+                    { drug: "Cefepime (severe)", dose: "1-2g IV q8h" },
                     { drug: "Acetaminophen", dose: "650mg q6h PRN pain/fever" },
                     { drug: "Ondansetron", dose: "4mg IV q8h PRN nausea" }
                 ],
@@ -996,43 +913,46 @@
                     "Urinalysis with microscopy",
                     "Urine culture and sensitivity (before antibiotics)",
                     "CBC with differential",
-                    "CMP",
-                    "Blood cultures x 2 if febrile or septic",
+                    "CMP (assess renal function)",
+                    "Blood cultures x2 if febrile or septic",
                     "Procalcitonin if sepsis"
                 ],
                 imaging: [
-                    "Renal ultrasound if: not improving in 48-72h, recurrent",
+                    "Not routinely needed",
+                    "Renal ultrasound if: not improving 48-72h, recurrent, obstruction concern",
                     "CT abdomen/pelvis with contrast if complicated or abscess"
                 ],
                 monitoring: [
                     "Vital signs q4h",
                     "Temperature curve",
                     "Urine output",
-                    "Clinical response at 48-72h"
+                    "Clinical response at 48-72h",
+                    "Modify antibiotics based on culture"
                 ]
             },
             {
                 id: 17,
                 name: "Sepsis / Septic Shock",
-                category: "Infectious",
+                critical: "ANTIBIOTICS WITHIN 1 HOUR. Fluid resuscitation 30 mL/kg in first hour. Norepinephrine if MAP <65 despite fluids.",
                 admission: [
-                    "ICU",
+                    "ICU mandatory",
                     "Central line, arterial line",
-                    "Foley catheter (strict I/O)"
+                    "Foley catheter (strict I/O)",
+                    "NPO initially"
                 ],
-                medications: [
-                    { drug: "Crystalloid", dose: "30 mL/kg bolus (typically 2-3L) in first hour" },
+                meds: [
+                    { drug: "Crystalloid", dose: "30 mL/kg bolus (2-3L typically) in FIRST HOUR" },
                     { drug: "Vancomycin", dose: "15-20mg/kg + Pip-tazo 4.5g q6h OR Cefepime 2g q8h + Metronidazole" },
                     { drug: "Norepinephrine", dose: "0.05-0.3 mcg/kg/min (if MAP <65 despite fluids)" },
                     { drug: "Vasopressin", dose: "0.03-0.04 units/min (if refractory)" },
-                    { drug: "Hydrocortisone", dose: "50mg IV q6h or 200mg/day continuous (if refractory shock)" }
+                    { drug: "Hydrocortisone", dose: "50mg IV q6h or 200mg/day (if refractory shock)" }
                 ],
                 labs: [
                     "CBC with differential",
                     "CMP, LFTs",
                     "Lactate (repeat q2-4h until normalizes)",
                     "PT/INR, PTT, fibrinogen, D-dimer",
-                    "Blood cultures x 2 (before antibiotics)",
+                    "Blood cultures x2 (before antibiotics)",
                     "Procalcitonin",
                     "Culture from suspected source"
                 ],
@@ -1044,26 +964,25 @@
                 ],
                 monitoring: [
                     "Continuous vital signs, invasive BP",
-                    "Central venous pressure",
+                    "Central venous pressure (CVP)",
                     "ScvO2 or lactate clearance",
                     "Urine output q1h (goal >0.5 mL/kg/h)",
                     "qSOFA and SOFA scores"
-                ],
-                critical: "Antibiotics within 1 hour of recognition"
+                ]
             },
             {
                 id: 18,
                 name: "Cellulitis",
-                category: "Infectious",
+                critical: null,
                 admission: [
-                    "Admit if: severe infection, systemic symptoms, failed outpatient therapy",
+                    "Admit if: severe, systemic symptoms, failed outpatient therapy, immunocompromised",
                     "Elevate affected limb",
-                    "Mark borders of erythema"
+                    "Mark borders of erythema with pen"
                 ],
-                medications: [
-                    { drug: "Cefazolin", dose: "1-2g IV q8h (non-purulent, no MRSA risk)" },
+                meds: [
+                    { drug: "Cefazolin (non-purulent)", dose: "1-2g IV q8h" },
                     { drug: "Ceftriaxone", dose: "1-2g IV daily" },
-                    { drug: "Vancomycin", dose: "15-20mg/kg IV q8-12h (purulent or MRSA risk)" },
+                    { drug: "Vancomycin (MRSA risk)", dose: "15-20mg/kg IV q8-12h" },
                     { drug: "Daptomycin", dose: "4mg/kg IV daily" },
                     { drug: "Severe/necrotizing", dose: "Vancomycin + Pip-tazo 4.5g q6h + Clindamycin 600-900mg q8h" }
                 ],
@@ -1075,32 +994,33 @@
                     "CRP (baseline and follow)"
                 ],
                 imaging: [
+                    "Usually not needed",
                     "Ultrasound if abscess suspected",
-                    "X-ray if concern for foreign body, gas, osteomyelitis",
-                    "MRI if necrotizing fasciitis suspected"
+                    "X-ray if foreign body, gas, osteomyelitis concern",
+                    "MRI if necrotizing fasciitis or deep infection"
                 ],
                 monitoring: [
                     "Vital signs q4h",
                     "Daily measurement of erythema borders",
                     "Clinical response at 48-72h",
-                    "Watch for necrotizing infection signs"
+                    "Watch for necrotizing infection: pain out of proportion, crepitus, rapid progression"
                 ]
             },
             {
                 id: 19,
                 name: "Acute Ischemic Stroke",
-                category: "Neurologic",
+                critical: "tPA within 4.5 hours if eligible. Keep BP <185/110 pre-tPA, <180/105 post-tPA.",
                 admission: [
                     "Stroke unit or ICU",
                     "NPO until swallow screen passed",
                     "Neurology consult STAT",
-                    "Head of bed at 30 degrees"
+                    "Head of bed 30 degrees"
                 ],
-                medications: [
-                    { drug: "tPA (if within 4.5h)", dose: "Alteplase 0.9 mg/kg (max 90mg): 10% bolus, 90% over 60 min" },
-                    { drug: "Aspirin", dose: "325mg PO once, then 81mg daily (within 48h, not if tPA given)" },
+                meds: [
+                    { drug: "tPA (if <4.5h eligible)", dose: "Alteplase 0.9 mg/kg (max 90mg): 10% bolus, 90% over 60min" },
+                    { drug: "Aspirin", dose: "325mg PO once, then 81mg daily (within 48h, NOT if tPA given)" },
                     { drug: "Atorvastatin", dose: "80mg daily" },
-                    { drug: "BP management (if tPA)", dose: "Keep BP <185/110 pre-tPA, <180/105 post-tPA" },
+                    { drug: "BP management (tPA)", dose: "Keep <185/110 pre-tPA, <180/105 post-tPA" },
                     { drug: "DVT prophylaxis", dose: "SCDs, then heparin SC when safe" }
                 ],
                 labs: [
@@ -1111,39 +1031,38 @@
                     "Hypercoagulable workup if young/cryptogenic"
                 ],
                 imaging: [
-                    "Non-contrast CT head STAT",
-                    "CT angiography head/neck",
-                    "MRI brain with DWI",
-                    "CT perfusion (if considering thrombectomy)",
-                    "Echocardiogram (TTE/TEE)",
+                    "Non-contrast CT head STAT (rule out hemorrhage)",
+                    "CT angiography head/neck (assess for LVO)",
+                    "MRI brain with DWI (confirm ischemia)",
+                    "CT perfusion (if thrombectomy considered)",
+                    "Echocardiogram (TTE/TEE for cardioembolic source)",
                     "Carotid Doppler"
                 ],
                 monitoring: [
                     "Neuro checks q1h x 24h (if tPA), then q4h",
                     "Vital signs q15min x 2h (post-tPA)",
                     "NIHSS score serial assessments",
-                    "Continuous cardiac monitoring",
-                    "Blood glucose monitoring (goal 140-180)"
-                ],
-                critical: "tPA must be given within 4.5 hours of symptom onset if eligible"
+                    "Continuous cardiac monitoring (AFib screening)",
+                    "Blood glucose (goal 140-180 mg/dL)"
+                ]
             },
             {
                 id: 20,
                 name: "Intracerebral Hemorrhage (ICH)",
-                category: "Neurologic",
+                critical: "Reverse anticoagulation IMMEDIATELY. BP goal 140-160 mmHg. Neurosurgery STAT.",
                 admission: [
-                    "ICU",
+                    "ICU mandatory",
                     "Neurosurgery consult STAT",
                     "Head of bed 30 degrees",
                     "NPO",
                     "Seizure precautions"
                 ],
-                medications: [
+                meds: [
                     { drug: "BP control", dose: "Goal SBP 140-160 mmHg (Nicardipine, labetalol)" },
-                    { drug: "Warfarin reversal", dose: "Vitamin K 10mg IV + 4-factor PCC OR FFP" },
+                    { drug: "Warfarin reversal", dose: "Vitamin K 10mg IV + 4-factor PCC (Kcentra) OR FFP" },
                     { drug: "Heparin reversal", dose: "Protamine sulfate" },
                     { drug: "DOAC reversal", dose: "Idarucizumab (dabigatran), Andexanet alfa (Xa inhibitors)" },
-                    { drug: "Levetiracetam", dose: "500-1000mg IV BID (seizure prophylaxis)" },
+                    { drug: "Levetiracetam", dose: "500-1000mg IV BID (seizure prophylaxis, avoid phenytoin)" },
                     { drug: "Mannitol", dose: "0.25-1 g/kg IV (if elevated ICP)" },
                     { drug: "Hypertonic saline", dose: "3% bolus" }
                 ],
@@ -1154,7 +1073,7 @@
                     "Toxicology screen"
                 ],
                 imaging: [
-                    "Non-contrast CT head STAT",
+                    "Non-contrast CT head STAT (diagnostic)",
                     "Repeat CT head at 6h and PRN",
                     "CT angiography (if suspect vascular malformation)",
                     "MRI brain (if chronic, evaluate for underlying lesion)"
@@ -1163,80 +1082,79 @@
                     "Neuro checks q1h",
                     "Vital signs continuous",
                     "ICH score (mortality prediction)",
-                    "GCS serial",
+                    "GCS serial assessments",
                     "ICP monitoring if indicated"
-                ],
-                critical: "Reverse anticoagulation immediately"
+                ]
             },
             {
                 id: 21,
                 name: "Seizure / Status Epilepticus",
-                category: "Neurologic",
+                critical: null,
                 admission: [
                     "ICU if status epilepticus",
+                    "General floor if single seizure",
                     "Neurology consult",
-                    "Seizure precautions: padded bed rails, suction",
-                    "NPO until fully alert"
+                    "Seizure precautions: padded rails, suction"
                 ],
-                medications: [
+                meds: [
                     { drug: "Lorazepam", dose: "0.1mg/kg IV (max 4mg/dose)" },
                     { drug: "Diazepam", dose: "0.15mg/kg IV" },
-                    { drug: "Fosphenytoin", dose: "20 mg PE/kg IV (second-line)" },
+                    { drug: "Fosphenytoin (2nd line)", dose: "20 mg PE/kg IV" },
                     { drug: "Valproate", dose: "40mg/kg IV" },
                     { drug: "Levetiracetam", dose: "60mg/kg IV" },
                     { drug: "Refractory", dose: "Midazolam, propofol, or pentobarbital drip" }
                 ],
                 labs: [
-                    "Glucose (fingerstick immediately)",
+                    "Glucose (fingerstick IMMEDIATELY)",
                     "CBC, CMP (including Ca, Mg, Phos)",
                     "AED levels (if on medications)",
                     "Toxicology screen",
                     "Ammonia, LFTs",
                     "Prolactin (within 10-20 min of seizure)",
-                    "LP if concern for meningitis/encephalitis"
+                    "LP if meningitis/encephalitis concern"
                 ],
                 imaging: [
                     "Non-contrast CT head (emergently)",
                     "MRI brain (electively for first unprovoked seizure)",
-                    "EEG (urgent if concern for ongoing seizure)"
+                    "EEG (urgent if ongoing seizure; routine for workup)"
                 ],
                 monitoring: [
                     "Continuous EEG if status epilepticus",
                     "Neuro checks q2-4h",
                     "Vital signs q4h",
                     "Fall precautions",
-                    "Document seizure semiology"
+                    "Document seizure semiology if witnessed"
                 ]
             },
             {
                 id: 22,
                 name: "Meningitis / Encephalitis",
-                category: "Infectious/Neurologic",
+                critical: "Antibiotics BEFORE LP if LP delayed. Dexamethasone with/before first antibiotic dose.",
                 admission: [
                     "ICU or step-down",
                     "Droplet/airborne precautions until bacterial ruled out",
                     "NPO if altered mental status",
-                    "Neurology consult, ID consult"
+                    "Neurology, ID consults"
                 ],
-                medications: [
+                meds: [
                     { drug: "Vancomycin", dose: "15-20mg/kg IV q8-12h" },
                     { drug: "Ceftriaxone", dose: "2g IV q12h" },
-                    { drug: "Ampicillin (if >50 or immunocompromised)", dose: "2g IV q4h" },
+                    { drug: "Ampicillin (if >50 or immunocompromised)", dose: "2g IV q4h (covers Listeria)" },
                     { drug: "Acyclovir", dose: "10mg/kg IV q8h (if encephalitis suspected)" },
-                    { drug: "Dexamethasone", dose: "10mg IV q6h x 4 days (with or before first antibiotic)" }
+                    { drug: "Dexamethasone", dose: "10mg IV q6h x 4 days (with/before first antibiotic)" }
                 ],
                 labs: [
-                    "Lumbar puncture (STAT): OP, cell count, glucose, protein, gram stain, culture",
+                    "LP (STAT): opening pressure, cell count, glucose, protein, gram stain, culture",
                     "CSF: HSV PCR, enterovirus PCR",
-                    "Consider: cryptococcal Ag, VDRL, AFB",
-                    "Blood cultures x 2",
+                    "Consider: cryptococcal Ag, VDRL, AFB, fungal culture",
+                    "Blood cultures x2",
                     "CBC, CMP, procalcitonin",
                     "HIV test",
                     "CT head before LP if: focal deficits, papilledema, immunocompromised"
                 ],
                 imaging: [
                     "Non-contrast CT head (before LP if indicated)",
-                    "MRI brain with contrast (if encephalitis)"
+                    "MRI brain with contrast (if encephalitis - temporal lobe HSV)"
                 ],
                 monitoring: [
                     "Neuro checks q1-2h",
@@ -1244,20 +1162,19 @@
                     "GCS serial",
                     "Monitor for: seizures, increased ICP, SIADH",
                     "Repeat LP if not improving"
-                ],
-                critical: "Give antibiotics BEFORE LP if LP delayed"
+                ]
             },
             {
                 id: 23,
                 name: "Acute Anemia",
-                category: "Hematologic",
+                critical: null,
                 admission: [
-                    "General medical floor (ICU if hemodynamically unstable)",
-                    "Type and cross",
+                    "General floor (ICU if hemodynamically unstable)",
+                    "Type and cross (units based on severity)",
                     "Activity: bed rest if severe"
                 ],
-                medications: [
-                    { drug: "PRBC transfusion", dose: "Threshold Hgb <7 (or <8 if cardiac disease). 1 unit raises Hgb ~1 g/dL" },
+                meds: [
+                    { drug: "PRBC transfusion", dose: "Threshold Hgb <7 (or <8 if cardiac disease). 1 unit raises ~1 g/dL" },
                     { drug: "Ferrous sulfate", dose: "325mg PO TID (if iron deficiency)" },
                     { drug: "IV iron", dose: "If severe, malabsorption, PO intolerance" },
                     { drug: "Vitamin B12", dose: "1000mcg IM daily x 7 days, then weekly" },
@@ -1268,14 +1185,14 @@
                     "CBC with differential, reticulocyte count",
                     "Iron studies: serum iron, TIBC, ferritin, transferrin sat",
                     "Vitamin B12, folate",
-                    "Hemolysis workup: LDH, haptoglobin, indirect bili, Coombs",
+                    "Hemolysis: LDH, haptoglobin, indirect bili, Coombs",
                     "Peripheral smear",
                     "CMP, LFTs",
                     "Consider: SPEP, UPEP, hemoglobin electrophoresis"
                 ],
                 imaging: [
                     "EGD or colonoscopy (if GI source)",
-                    "CT abdomen/pelvis (if retroperitoneal bleed)",
+                    "CT abdomen/pelvis (if retroperitoneal bleed, mass)",
                     "Bone marrow biopsy (if unclear etiology)"
                 ],
                 monitoring: [
@@ -1288,15 +1205,15 @@
             {
                 id: 24,
                 name: "Sickle Cell Crisis (Vaso-Occlusive)",
-                category: "Hematologic",
+                critical: null,
                 admission: [
-                    "General medical floor (ICU if chest crisis or severe)",
+                    "General floor (ICU if chest crisis or severe)",
                     "Pain control team consult",
                     "Hematology consult",
                     "Encourage PO hydration"
                 ],
-                medications: [
-                    { drug: "Morphine PCA or Hydromorphone PCA", dose: "Individualized based on home regimen + 25-50%" },
+                meds: [
+                    { drug: "Opioids (aggressive)", dose: "Morphine/hydromorphone PCA - individualized based on home + 25-50%" },
                     { drug: "Ketorolac", dose: "15-30mg IV q6h (if renal function OK)" },
                     { drug: "Acetaminophen", dose: "650-1000mg PO q6h" },
                     { drug: "IV hydration", dose: "NS or D5 1/2NS at 1.5x maintenance (150 mL/h)" },
@@ -1311,38 +1228,38 @@
                     "Blood cultures if febrile"
                 ],
                 imaging: [
-                    "Chest X-ray (if chest pain, dyspnea, hypoxia)",
-                    "X-rays of painful areas if concern for osteomyelitis or AVN"
+                    "Chest X-ray (if chest pain, dyspnea, hypoxia - acute chest syndrome)",
+                    "X-rays of painful areas if osteomyelitis or AVN concern"
                 ],
                 monitoring: [
                     "Pain assessments q2-4h",
                     "Vital signs q4h",
-                    "Oxygen saturation continuous if hypoxic",
+                    "Continuous oxygen saturation if hypoxic",
                     "Incentive spirometry volumes",
-                    "Monitor for acute chest syndrome"
+                    "Monitor for acute chest syndrome: hypoxia, chest pain, fever, infiltrate"
                 ]
             },
             {
                 id: 25,
                 name: "Neutropenic Fever",
-                category: "Oncologic/Infectious",
+                critical: "ANTIBIOTICS WITHIN 1 HOUR. Continue until ANC >500 and afebrile >48h.",
                 admission: [
                     "Oncology consult",
                     "Isolation/protective precautions",
                     "Regular diet"
                 ],
-                medications: [
-                    { drug: "Cefepime", dose: "2g IV q8h (within 1 hour)" },
+                meds: [
+                    { drug: "Cefepime", dose: "2g IV q8h (WITHIN 1 HOUR)" },
                     { drug: "Pip-tazo", dose: "4.5g IV q6h" },
                     { drug: "Meropenem", dose: "1g IV q8h" },
-                    { drug: "Add vancomycin if", dose: "Central line, skin infection, hemodynamic instability, pneumonia, known MRSA" },
-                    { drug: "Antifungal (if persistent fever >4-7d)", dose: "Micafungin, voriconazole" },
+                    { drug: "Add vancomycin if", dose: "Central line, skin infection, instability, pneumonia, known MRSA" },
+                    { drug: "Antifungal (if persistent >4-7d)", dose: "Micafungin, voriconazole" },
                     { drug: "G-CSF (filgrastim)", dose: "5 mcg/kg SC daily if high risk" }
                 ],
                 labs: [
-                    "CBC with differential (daily)",
+                    "CBC with differential (DAILY)",
                     "CMP",
-                    "Blood cultures x 2 (peripheral and from each lumen)",
+                    "Blood cultures x2 (peripheral and from each lumen)",
                     "Urinalysis and urine culture",
                     "Respiratory viral panel",
                     "Fungal markers: beta-D-glucan, galactomannan",
@@ -1357,20 +1274,19 @@
                     "Temperature q4h",
                     "Daily ANC (absolute neutrophil count)",
                     "Assess response at 48-72h",
-                    "Duration: until ANC >500 and afebrile >48h"
-                ],
-                critical: "Antibiotics within 1 hour of presentation"
+                    "Examine daily: mouth, skin, IV sites, perirectal"
+                ]
             },
             {
                 id: 26,
                 name: "Alcohol Withdrawal / Delirium Tremens",
-                category: "Toxicologic",
+                critical: null,
                 admission: [
                     "ICU if severe withdrawal or DTs",
                     "Quiet, well-lit room",
                     "Fall precautions, 1:1 sitter if needed"
                 ],
-                medications: [
+                meds: [
                     { drug: "Chlordiazepoxide (CIWA)", dose: "25-100mg PO q1h PRN CIWA >8-10" },
                     { drug: "Lorazepam (CIWA)", dose: "1-4mg IV/PO q1h PRN" },
                     { drug: "Diazepam (fixed)", dose: "10mg PO q6h x 4 doses, then taper" },
@@ -1393,7 +1309,7 @@
                     "CT head if trauma, altered, or focal findings"
                 ],
                 monitoring: [
-                    "CIWA-Ar score q1-4h",
+                    "CIWA-Ar score q1-4h (based on severity)",
                     "Vital signs q1-4h",
                     "Continuous telemetry",
                     "Fluid balance",
@@ -1404,13 +1320,13 @@
             {
                 id: 27,
                 name: "Hyponatremia (Severe/Symptomatic)",
-                category: "Electrolyte",
+                critical: "Correct slowly: not >8-10 mEq/L in 24h to avoid osmotic demyelination syndrome.",
                 admission: [
                     "ICU if severe (<120 mEq/L) or symptomatic",
-                    "Fluid restrict (typically <1L/day) if SIADH"
+                    "Fluid restrict (<1L/day) if SIADH"
                 ],
-                medications: [
-                    { drug: "3% NaCl (if severe symptoms)", dose: "100 mL IV bolus over 10 min, can repeat x2-3. Goal: increase Na by 4-6 mEq/L in first 4-6h" },
+                meds: [
+                    { drug: "3% NaCl (if severe)", dose: "100 mL IV bolus over 10min, repeat x2-3. Goal: increase 4-6 mEq/L in 4-6h" },
                     { drug: "Fluid restriction", dose: "800-1000 mL/day (if SIADH)" },
                     { drug: "Normal saline", dose: "If hypovolemic hyponatremia" },
                     { drug: "Salt tablets", dose: "1-2g PO TID (if cerebral salt wasting)" },
@@ -1424,7 +1340,7 @@
                     "CMP daily"
                 ],
                 imaging: [
-                    "CT or MRI brain if concern for cerebral edema or osmotic demyelination"
+                    "CT or MRI brain if cerebral edema or osmotic demyelination concern"
                 ],
                 monitoring: [
                     "Neuro checks q2-4h",
@@ -1432,21 +1348,20 @@
                     "Daily weights",
                     "Calculate: corrected Na, free water deficit/excess",
                     "Watch for overcorrection"
-                ],
-                critical: "Rate of correction: not >8-10 mEq/L in 24h to avoid osmotic demyelination"
+                ]
             },
             {
                 id: 28,
                 name: "Hyperkalemia (Severe)",
-                category: "Electrolyte",
+                critical: "Calcium first if ECG changes. Treat cause. Dialysis if K >6.5-7 or refractory.",
                 admission: [
-                    "Telemetry monitoring (continuous cardiac monitoring)",
+                    "Telemetry monitoring (continuous cardiac)",
                     "Nephrology consult if severe or refractory",
                     "Low potassium diet"
                 ],
-                medications: [
-                    { drug: "Calcium gluconate (if ECG changes)", dose: "1-2g (10-20 mL of 10%) IV over 5-10 min" },
-                    { drug: "Calcium chloride", dose: "0.5-1g IV over 5-10 min (central line preferred)" },
+                meds: [
+                    { drug: "Calcium gluconate (if ECG changes)", dose: "1-2g (10-20 mL 10%) IV over 5-10min" },
+                    { drug: "Calcium chloride", dose: "0.5-1g IV over 5-10min (central line preferred)" },
                     { drug: "Regular insulin + D50", dose: "10 units IV + 25g (50 mL) IV" },
                     { drug: "Albuterol", dose: "10-20mg nebulized" },
                     { drug: "Sodium bicarbonate", dose: "50-100 mEq IV (if metabolic acidosis)" },
@@ -1455,13 +1370,13 @@
                     { drug: "Hemodialysis", dose: "If refractory, K >6.5-7, or ECG changes" }
                 ],
                 labs: [
-                    "Stat basic metabolic panel",
+                    "Stat BMP",
                     "Repeat K q2-4h until <5.5 mEq/L",
-                    "ABG or VBG (assess for acidosis)",
+                    "ABG or VBG (assess acidosis)",
                     "Digoxin level if on digoxin"
                 ],
                 imaging: [
-                    "ECG immediately (peaked T waves, wide QRS, sine wave)",
+                    "ECG immediately (peaked T, wide QRS, sine wave)",
                     "Repeat ECG after treatment"
                 ],
                 monitoring: [
@@ -1469,24 +1384,23 @@
                     "K q1-2h initially",
                     "ECG with each K check",
                     "Monitor for hypoglycemia (after insulin)"
-                ],
-                critical: "Give calcium first if ECG changes present"
+                ]
             },
             {
                 id: 29,
                 name: "Hypercalcemia (Severe)",
-                category: "Electrolyte",
+                critical: null,
                 admission: [
-                    "General medical floor (ICU if symptomatic or Ca >14)",
+                    "General floor (ICU if symptomatic or Ca >14)",
                     "Cardiac monitoring if Ca >12"
                 ],
-                medications: [
+                meds: [
                     { drug: "NS", dose: "200-300 mL/h (total 4-6L over 24h)" },
                     { drug: "Calcitonin", dose: "4 units/kg SC/IM q12h (rapid onset, short duration)" },
-                    { drug: "Zoledronic acid", dose: "4mg IV over 15min (max effect in 2-4 days)" },
+                    { drug: "Zoledronic acid", dose: "4mg IV over 15min (max effect 2-4 days)" },
                     { drug: "Pamidronate", dose: "60-90mg IV over 2-4h" },
-                    { drug: "Furosemide", dose: "20-40mg IV (only AFTER adequate hydration)" },
-                    { drug: "Prednisone", dose: "40-60mg daily (if granulomatous disease, lymphoma, myeloma)" },
+                    { drug: "Furosemide", dose: "20-40mg IV (ONLY after hydration)" },
+                    { drug: "Prednisone", dose: "40-60mg daily (if granulomatous, lymphoma, myeloma)" },
                     { drug: "Denosumab", dose: "120mg SC (if refractory)" }
                 ],
                 labs: [
@@ -1500,26 +1414,27 @@
                 imaging: [
                     "Chest X-ray (malignancy, sarcoidosis)",
                     "Bone scan or skeletal survey",
-                    "Sestamibi scan (if primary hyperparathyroidism)"
+                    "Sestamibi scan (if hyperparathyroidism)"
                 ],
                 monitoring: [
                     "Calcium q4-6h initially, then daily",
                     "Strict I/O",
                     "Neuro checks q4h",
                     "ECG (shortened QT)",
+                    "Monitor for volume overload",
                     "Assess response at 48-72h"
                 ]
             },
             {
                 id: 30,
                 name: "Hypothyroidism / Myxedema Coma",
-                category: "Endocrine",
+                critical: null,
                 admission: [
                     "ICU if myxedema coma",
                     "Passive rewarming if hypothermic",
                     "Endocrinology consult"
                 ],
-                medications: [
+                meds: [
                     { drug: "Levothyroxine (myxedema)", dose: "200-400 mcg IV load, then 50-100 mcg IV daily" },
                     { drug: "Liothyronine (T3)", dose: "5-20 mcg IV q8-12h (controversial)" },
                     { drug: "Hydrocortisone", dose: "100mg IV q8h (until adrenal insufficiency ruled out)" },
@@ -1527,7 +1442,7 @@
                 ],
                 labs: [
                     "TSH, free T4, free T3",
-                    "Cortisol (random and possibly stimulation test)",
+                    "Cortisol (random, possibly stim test)",
                     "CBC, CMP",
                     "Lipid panel",
                     "CK (often elevated)"
@@ -1535,8 +1450,8 @@
                 imaging: [
                     "Chest X-ray (pericardial effusion)",
                     "ECG (bradycardia, low voltage, prolonged QT)",
-                    "Echocardiogram (pericardial effusion)",
-                    "CT or MRI brain if altered"
+                    "Echocardiogram (effusion, reduced contractility)",
+                    "CT/MRI brain if altered"
                 ],
                 monitoring: [
                     "Vital signs q2-4h",
@@ -1549,18 +1464,18 @@
             {
                 id: 31,
                 name: "Hyperthyroidism / Thyroid Storm",
-                category: "Endocrine",
+                critical: "Give iodine 1 hour AFTER anti-thyroid drugs (PTU/methimazole).",
                 admission: [
                     "ICU if thyroid storm",
                     "Cooling measures if febrile",
                     "Endocrinology consult"
                 ],
-                medications: [
-                    { drug: "PTU", dose: "500-1000mg PO load, then 250mg PO q4h (blocks synthesis)" },
+                meds: [
+                    { drug: "PTU", dose: "500-1000mg PO load, then 250mg q4h (blocks synthesis)" },
                     { drug: "Methimazole", dose: "20mg PO q4h" },
-                    { drug: "Iodine (Lugol's)", dose: "5 drops PO q6h (give 1h AFTER PTU/methimazole)" },
+                    { drug: "Iodine (1h AFTER PTU)", dose: "Lugol's or SSKI 5 drops PO q6h" },
                     { drug: "Propranolol", dose: "60-80mg PO q4h OR 1-2mg IV q10-15min OR Esmolol drip" },
-                    { drug: "Hydrocortisone", dose: "100mg IV q8h (blocks T4→T3 conversion)" }
+                    { drug: "Hydrocortisone", dose: "100mg IV q8h (blocks T4→T3)" }
                 ],
                 labs: [
                     "TSH, free T4, free T3",
@@ -1571,7 +1486,7 @@
                 ],
                 imaging: [
                     "Chest X-ray (heart failure)",
-                    "ECG (atrial fibrillation, sinus tachycardia)",
+                    "ECG (AFib, sinus tach)",
                     "Thyroid ultrasound (if nodule/goiter)"
                 ],
                 monitoring: [
@@ -1580,22 +1495,21 @@
                     "Temperature monitoring",
                     "Neuro checks q2-4h",
                     "Heart rate control (goal <100 bpm)"
-                ],
-                critical: "Give iodine 1 hour AFTER anti-thyroid drugs"
+                ]
             },
             {
                 id: 32,
                 name: "Adrenal Insufficiency / Adrenal Crisis",
-                category: "Endocrine",
+                critical: null,
                 admission: [
                     "ICU if crisis",
                     "NPO initially",
                     "Endocrinology consult"
                 ],
-                medications: [
+                meds: [
                     { drug: "Hydrocortisone (crisis)", dose: "100mg IV bolus, then 50-100mg IV q6-8h OR 200mg/24h continuous" },
                     { drug: "NS", dose: "1L bolus, then 150-250 mL/h (aggressive IVF)" },
-                    { drug: "Dextrose (if hypoglycemic)", dose: "D50 25-50g IV" },
+                    { drug: "Dextrose", dose: "D50 25-50g IV (if hypoglycemic)" },
                     { drug: "Hydrocortisone (chronic)", dose: "15-25mg PO daily (divided BID-TID)" },
                     { drug: "Fludrocortisone", dose: "0.05-0.2mg PO daily (if primary AI)" }
                 ],
@@ -1605,7 +1519,7 @@
                     "CMP (hyponatremia, hyperkalemia)",
                     "CBC, TSH, free T4",
                     "Renin, aldosterone",
-                    "Cosyntropin stimulation test (when stable)"
+                    "Cosyntropin stim test (when stable)"
                 ],
                 imaging: [
                     "CT abdomen (assess adrenal glands)",
@@ -1623,13 +1537,13 @@
             {
                 id: 33,
                 name: "Transfusion Reaction",
-                category: "Hematologic",
+                critical: "STOP transfusion immediately. Keep IV open with NS. Notify blood bank STAT.",
                 admission: [
                     "Stop transfusion immediately",
                     "Keep IV line open with NS",
                     "Notify blood bank STAT"
                 ],
-                medications: [
+                meds: [
                     { drug: "Acute hemolytic: NS", dose: "Aggressive bolus and infusion" },
                     { drug: "Furosemide", dose: "20-40mg IV (maintain UOP >100 mL/h)" },
                     { drug: "Febrile: Acetaminophen", dose: "650mg PO" },
@@ -1663,14 +1577,14 @@
             {
                 id: 34,
                 name: "Syncope",
-                category: "Cardiovascular/Neurologic",
+                critical: null,
                 admission: [
                     "Telemetry monitoring",
                     "Fall precautions",
-                    "Activity: bed rest initially, then supervised ambulation"
+                    "Activity: bed rest initially, supervised ambulation"
                 ],
-                medications: [
-                    { drug: "Hold antihypertensives temporarily if orthostatic", dose: "" },
+                meds: [
+                    { drug: "Hold antihypertensives if orthostatic", dose: "" },
                     { drug: "IVF bolus if hypovolemic", dose: "" },
                     { drug: "Treat underlying cause", dose: "Arrhythmia, seizure, etc." }
                 ],
@@ -1678,18 +1592,18 @@
                     "CBC (anemia)",
                     "CMP (electrolytes)",
                     "Troponin",
-                    "BNP (if heart failure suspected)",
+                    "BNP (if heart failure)",
                     "Glucose",
                     "Pregnancy test if applicable",
                     "Consider: TSH, cortisol, toxicology"
                 ],
                 imaging: [
-                    "ECG (arrhythmia, ischemia, conduction abnormalities)",
+                    "ECG (arrhythmia, ischemia, conduction)",
                     "Orthostatic vital signs",
-                    "Echocardiogram (if structural disease suspected)",
-                    "Carotid Doppler (if carotid stenosis suspected)",
+                    "Echocardiogram (if structural disease)",
+                    "Carotid Doppler (if stenosis suspected)",
                     "Head CT (if trauma, focal deficits)",
-                    "Telemetry monitoring (24-48h minimum)"
+                    "Telemetry (24-48h minimum)"
                 ],
                 monitoring: [
                     "Continuous telemetry",
@@ -1702,20 +1616,20 @@
             {
                 id: 35,
                 name: "Rhabdomyolysis",
-                category: "Renal/Metabolic",
+                critical: "Aggressive hydration KEY. Goal UOP 200-300 mL/h. Watch for hyperkalemia.",
                 admission: [
-                    "General medical floor (ICU if severe or AKI)",
-                    "Aggressive IVF",
+                    "General floor (ICU if severe or AKI)",
+                    "Aggressive IVF - cornerstone of treatment",
                     "Foley catheter if severe"
                 ],
-                medications: [
-                    { drug: "NS (cornerstone)", dose: "200-400 mL/h (goal UOP 200-300 mL/h)" },
+                meds: [
+                    { drug: "NS (KEY)", dose: "200-400 mL/h (goal UOP 200-300 mL/h)" },
                     { drug: "Sodium bicarbonate", dose: "Added to IVF (goal urine pH >6.5) - controversial" },
                     { drug: "Mannitol", dose: "If volume overloaded - controversial" },
                     { drug: "Dialysis", dose: "If severe AKI, hyperkalemia, volume overload" }
                 ],
                 labs: [
-                    "CK (q6-12h initially, goal <1000 U/L)",
+                    "CK (q6-12h, goal <1000 U/L)",
                     "CBC, CMP (Na, K, Ca, Phos, Cr) q6-12h",
                     "Urinalysis (myoglobinuria - tea-colored)",
                     "Urine myoglobin",
@@ -1726,30 +1640,29 @@
                 ],
                 imaging: [
                     "MRI muscles (if compartment syndrome)",
-                    "Based on etiology: head CT if seizures"
+                    "Based on etiology"
                 ],
                 monitoring: [
                     "Vital signs q4h",
                     "Strict I/O (goal UOP 200-300 mL/h)",
                     "Daily weights",
-                    "CK trending (should decrease ~40% daily)",
+                    "CK trending (should ↓ ~40% daily)",
                     "Monitor for: AKI, hyperkalemia, hypocalcemia, DIC, compartment syndrome"
-                ],
-                critical: "Aggressive hydration is KEY - goal UOP 200-300 mL/h"
+                ]
             },
             {
                 id: 36,
                 name: "Hypovolemic Shock",
-                category: "Critical Care",
+                critical: null,
                 admission: [
                     "ICU",
                     "2 large-bore IV access (18G or larger)",
                     "Foley catheter (strict I/O)",
                     "Identify and control source"
                 ],
-                medications: [
-                    { drug: "Crystalloid (NS or LR)", dose: "1-2L bolus rapidly (or 20 mL/kg), reassess after each bolus" },
-                    { drug: "Blood products (if hemorrhagic)", dose: "Massive transfusion protocol: PRBC:FFP:Platelets = 1:1:1" },
+                meds: [
+                    { drug: "Crystalloid (NS or LR)", dose: "1-2L bolus rapidly (20 mL/kg), reassess after each" },
+                    { drug: "Blood products (hemorrhagic)", dose: "MTP: PRBC:FFP:Platelets = 1:1:1" },
                     { drug: "Tranexamic acid", dose: "1g IV over 10min (within 3h of trauma)" },
                     { drug: "Norepinephrine (if refractory)", dose: "0.05-0.3 mcg/kg/min (after adequate fluids)" }
                 ],
@@ -1764,10 +1677,10 @@
                 imaging: [
                     "Based on source: CXR, FAST, CT if trauma",
                     "EGD or colonoscopy if GI bleeding",
-                    "Angiography with embolization if ongoing"
+                    "Angiography with embolization"
                 ],
                 monitoring: [
-                    "Continuous vital signs, arterial line",
+                    "Continuous vitals, arterial line",
                     "Central venous pressure",
                     "Urine output q1h (goal >0.5 mL/kg/h)",
                     "Lactate clearance",
@@ -1777,153 +1690,126 @@
         ];
 
         // Generate TOC
-        function generateTOC() {
-            const tocGrid = document.getElementById('tocGrid');
-            conditions.forEach(condition => {
-                const tocItem = document.createElement('div');
-                tocItem.className = 'toc-item';
-                tocItem.textContent = condition.name;
-                tocItem.onclick = () => {
-                    document.getElementById(`condition-${condition.id}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    const content = document.getElementById(`content-${condition.id}`);
-                    if (!content.classList.contains('active')) {
-                        toggleCondition(condition.id);
-                    }
-                };
-                tocGrid.appendChild(tocItem);
-            });
-        }
+        const tocEl = document.getElementById('toc');
+        data.forEach(c => {
+            const link = document.createElement('div');
+            link.className = 'toc-link';
+            link.textContent = c.name;
+            link.onclick = () => {
+                document.getElementById(`card-${c.id}`).scrollIntoView({ behavior: 'smooth' });
+                const body = document.getElementById(`body-${c.id}`);
+                if (!body.classList.contains('show')) {
+                    toggleCard(c.id);
+                }
+            };
+            tocEl.appendChild(link);
+        });
 
-        // Generate condition cards
-        function generateConditions() {
-            const container = document.getElementById('conditionsContainer');
-            conditions.forEach(condition => {
-                const card = document.createElement('div');
-                card.className = 'condition-card';
-                card.id = `condition-${condition.id}`;
-                
-                let html = `
-                    <div class="condition-header" onclick="toggleCondition(${condition.id})">
-                        <h2>${condition.name}</h2>
-                        <span class="toggle-icon" id="icon-${condition.id}">▼</span>
-                    </div>
-                    <div class="condition-content" id="content-${condition.id}">
-                        ${condition.critical ? `<div class="critical-box"><strong>⚠️ CRITICAL:</strong> ${condition.critical}</div>` : ''}
-                        
-                        <div class="section">
-                            <div class="section-title">🏥 Admission Orders</div>
-                            <div class="section-content">
-                                <ul>
-                                    ${condition.admission.map(item => `<li>${item}</li>`).join('')}
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="section">
-                            <div class="section-title">💊 Medications</div>
-                            <div class="section-content">
-                                <ul class="med-list">
-                                    ${condition.medications.map(med => `
-                                        <li>
-                                            <span class="drug-name">${med.drug}</span>
-                                            ${med.dose ? `<br><span class="dose">${med.dose}</span>` : ''}
-                                        </li>
-                                    `).join('')}
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="section">
-                            <div class="section-title">🔬 Laboratory Studies</div>
-                            <div class="section-content">
-                                <ul class="lab-list">
-                                    ${condition.labs.map(lab => `<li>${lab}</li>`).join('')}
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="section">
-                            <div class="section-title">🩻 Imaging</div>
-                            <div class="section-content">
-                                <ul class="imaging-list">
-                                    ${condition.imaging.map(img => `<li>${img}</li>`).join('')}
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="section">
-                            <div class="section-title">📊 Monitoring</div>
-                            <div class="section-content">
-                                <ul class="monitor-list">
-                                    ${condition.monitoring.map(mon => `<li>${mon}</li>`).join('')}
-                                </ul>
-                            </div>
+        // Generate cards
+        const container = document.getElementById('conditions');
+        data.forEach(c => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.id = `card-${c.id}`;
+
+            let html = `
+                <div class="card-header" onclick="toggleCard(${c.id})">
+                    <h3>${c.name}</h3>
+                    <span class="toggle" id="toggle-${c.id}">▼</span>
+                </div>
+                <div class="card-body" id="body-${c.id}">
+                    ${c.critical ? `<div class="alert-critical"><strong>⚠️ CRITICAL:</strong> ${c.critical}</div>` : ''}
+                    
+                    <div class="section">
+                        <div class="section-title">🏥 Admission Orders</div>
+                        <div class="section-content">
+                            <ul>${c.admission.map(i => `<li>${i}</li>`).join('')}</ul>
                         </div>
                     </div>
-                `;
-                
-                card.innerHTML = html;
-                container.appendChild(card);
+                    
+                    <div class="section">
+                        <div class="section-title">💊 Medications</div>
+                        <div class="section-content">
+                            <ul>
+                                ${c.meds.map(m => `
+                                    <li>
+                                        <span class="drug-name">${m.drug}</span>
+                                        ${m.dose ? `<br><span class="dose">${m.dose}</span>` : ''}
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">🔬 Laboratory Studies</div>
+                        <div class="section-content">
+                            <ul>${c.labs.map(l => `<li>${l}</li>`).join('')}</ul>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">🩻 Imaging</div>
+                        <div class="section-content">
+                            <ul>${c.imaging.map(i => `<li>${i}</li>`).join('')}</ul>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <div class="section-title">📊 Monitoring</div>
+                        <div class="section-content">
+                            <ul>${c.monitoring.map(m => `<li>${m}</li>`).join('')}</ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            card.innerHTML = html;
+            container.appendChild(card);
+        });
+
+        // Toggle card
+        function toggleCard(id) {
+            const body = document.getElementById(`body-${id}`);
+            const toggle = document.getElementById(`toggle-${id}`);
+            body.classList.toggle('show');
+            toggle.classList.toggle('open');
+        }
+
+        // Expand/Collapse all
+        function expandAll() {
+            data.forEach(c => {
+                document.getElementById(`body-${c.id}`).classList.add('show');
+                document.getElementById(`toggle-${c.id}`).classList.add('open');
             });
         }
 
-        // Toggle condition visibility
-        function toggleCondition(id) {
-            const content = document.getElementById(`content-${id}`);
-            const icon = document.getElementById(`icon-${id}`);
-            content.classList.toggle('active');
-            icon.classList.toggle('open');
-        }
-
-        // Toggle all conditions
-        let allExpanded = false;
-        function toggleAll() {
-            allExpanded = !allExpanded;
-            conditions.forEach(condition => {
-                const content = document.getElementById(`content-${condition.id}`);
-                const icon = document.getElementById(`icon-${condition.id}`);
-                if (allExpanded) {
-                    content.classList.add('active');
-                    icon.classList.add('open');
-                } else {
-                    content.classList.remove('active');
-                    icon.classList.remove('open');
-                }
+        function collapseAll() {
+            data.forEach(c => {
+                document.getElementById(`body-${c.id}`).classList.remove('show');
+                document.getElementById(`toggle-${c.id}`).classList.remove('open');
             });
-            document.querySelector('.expand-all-btn').textContent = allExpanded ? 'Collapse All' : 'Expand All';
         }
 
-        // Search functionality
-        document.getElementById('searchBox').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            conditions.forEach(condition => {
-                const card = document.getElementById(`condition-${condition.id}`);
-                const content = JSON.stringify(condition).toLowerCase();
-                if (content.includes(searchTerm) || searchTerm === '') {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+        // Search
+        document.getElementById('search').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            data.forEach(c => {
+                const card = document.getElementById(`card-${c.id}`);
+                const text = JSON.stringify(c).toLowerCase();
+                card.style.display = text.includes(term) || !term ? 'block' : 'none';
             });
         });
 
-        // Back to top button
+        // Back to top
         window.addEventListener('scroll', function() {
-            const backToTop = document.getElementById('backToTop');
-            if (window.pageYOffset > 300) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
+            const btn = document.getElementById('backTop');
+            btn.classList.toggle('visible', window.pageYOffset > 300);
         });
 
-        function scrollToTop() {
+        function scrollTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // Initialize
-        generateTOC();
-        generateConditions();
     </script>
 </body>
 </html>
